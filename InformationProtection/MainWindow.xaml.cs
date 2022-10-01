@@ -48,7 +48,11 @@ namespace InformationProtection
                     }
                     else
                     {
-                        ContentWindow contentWindow = new ContentWindow();
+                        ContentWindow contentWindow;
+                        if (user.Role == Role.Admin)
+                            contentWindow = new ContentWindow(listUsers, user);
+                        else
+                            contentWindow = new ContentWindow(user);
                         contentWindow.Show();
                         this.Close();
                         break;

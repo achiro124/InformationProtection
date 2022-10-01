@@ -5,8 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InformationProtection"
         mc:Ignorable="d"
-        Title="ContentWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="ContentWindow" Height="439" Width="619" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <TabControl x:Name="products">
+            <TabItem x:Name="smartphonesTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Профиль</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel>
+                        <RadioButton IsChecked="True">iPhone S6</RadioButton>
+                        <RadioButton>LG G 4</RadioButton>
+                        <RadioButton>Lumia 550</RadioButton>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="tabletsTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Администрирование</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <ListBox x:Name="usersList" ItemsSource="{Binding}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Login}" FontSize="16"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Добавить" Margin="10" Click="Add_Click"/>
+                            <Button Content="Изменить" Margin="10" Click="Edit_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

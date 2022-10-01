@@ -8,9 +8,15 @@ namespace InformationProtection
 {
     public class User
     {
+        public readonly int Id = 0000;
         public string? Login { get; set; }
         public string? Password { get; set; }
         public Role Role { get; set; }
+
+        public User()
+        {
+            Id++;
+        }
         
     }
     public enum Role
