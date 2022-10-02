@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,15 +21,28 @@ namespace InformationProtection
     public partial class UserWindow : Window
     {
         public User User { get; private set; }
-        public UserWindow(User user)
+        private ObservableCollection<User> ListUsers { get; set; }
+        MessageError msgErr = new MessageError();
+        public UserWindow(User user, ObservableCollection<User> ListUsers)
         {
             InitializeComponent();
             User = user;
+            this.ListUsers = ListUsers;
             DataContext = user;
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)
         {
+            foreach(var user in ListUsers)
+            {
+                if (user.Login == txtBoxLogin.Text)
+                {
+                    msgErr.TypeError = Type.SimilarLoginsErr;
+                    txtBoxError.DataContext = msgErr; 
+                    return;
+                }
+                    
+            }
             DialogResult = true;
         }
     }

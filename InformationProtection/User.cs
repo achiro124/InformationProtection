@@ -12,6 +12,7 @@ namespace InformationProtection
         public string? Login { get; set; }
         public string? Password { get; set; }
         public Role Role { get; set; }
+        public bool Enable { get; set; } = true;
 
         public User()
         {

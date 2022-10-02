@@ -20,6 +20,7 @@ namespace InformationProtection
     public partial class PasswordRegistrationWindow : Window
     {
         public User User { get; set; }
+        MessageError msErr = new MessageError();
         public PasswordRegistrationWindow(User user)
         {
             InitializeComponent();
@@ -27,13 +28,15 @@ namespace InformationProtection
         }
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
-            if(passwordBox.Password == copyPasswordBox.Password)
+            if(passwordBox.Password == copyPasswordBox.Password && passwordBox.Password != "")
             {
                 User.Password = passwordBox.Password;
                 this.DialogResult = true;
             }
             else
             {
+                txtBoxError.DataContext = msErr;
+                msErr.TypeError = Type.CopyPasswordErr;
                 txtBoxError.Visibility = Visibility;
             }
         }

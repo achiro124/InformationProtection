@@ -23,15 +23,21 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        
         <TextBlock Text="Логин" />
+        <TextBox x:Name="txtBoxLogin" Text="{Binding Login}" Grid.Column="1" MaxLength="20" FontSize="16"/>
+        
+        <TextBlock Text="Учетная запись активна" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" FontSize="12"/>
+        <RadioButton Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0" IsChecked="{Binding Enable}"/>
 
-        <TextBox Text="{Binding Login}" Grid.Column="1" MaxLength="20" FontSize="16"/>
 
+        <TextBox x:Name="txtBoxError" Text="{Binding Text}" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"  FontSize="16" Visibility="Hidden" HorizontalAlignment="Center"/>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
             <Button IsDefault="True" Click="Accept_Click" >OK</Button>
             <Button IsCancel="True" >Отмена</Button>

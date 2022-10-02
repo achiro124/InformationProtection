@@ -16,20 +16,15 @@ using System.Windows.Shapes;
 
 namespace InformationProtection
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    ///
-
-
     public partial class MainWindow : Window
     {
         private string path = "E:\\C#\\InformationProtection\\InformationProtection\\baseDate.txt";
         List<User> listUsers = new List<User>();
+        MessageError msgErr = new MessageError();
+        int k = 0;
         public MainWindow()
         {
-            InitializeComponent();
-            
+            InitializeComponent();     
         }
 
 
@@ -37,29 +32,49 @@ namespace InformationProtection
         {
             foreach(var user in listUsers)
             {
-                if(user.Login == txtBoxLogin.Text && user.Password == passwordBox.Password)
+                if(user.Login == txtBoxLogin.Text)
                 {
-                    if(user.Password == "")
+                    if (user.Password == passwordBox.Password && user.Enable)
                     {
-                        PasswordRegistrationWindow passwordRegistration = new PasswordRegistrationWindow(user);
-                        passwordRegistration.Owner = this;
-                        passwordRegistration.ShowDialog();
-                        return;
+                        if (user.Password == "")
+                        {
+                            PasswordRegistrationWindow passwordRegistration = new PasswordRegistrationWindow(user);
+                            passwordRegistration.Owner = this;
+                            passwordRegistration.ShowDialog();
+                            return;
+                        }
+                        else
+                        {
+                            ContentWindow contentWindow;
+                            contentWindow = new ContentWindow(listUsers, user);
+                            contentWindow.Show();
+                            this.Close();
+                            break;
+                        }
                     }
                     else
                     {
-                        ContentWindow contentWindow;
-                        if (user.Role == Role.Admin)
-                            contentWindow = new ContentWindow(listUsers, user);
+                        if (!user.Enable) 
+                        {
+                            msgErr.TypeError = Type.UserBlockErr;
+                            break;
+                        }
                         else
-                            contentWindow = new ContentWindow(user);
-                        contentWindow.Show();
-                        this.Close();
-                        break;
+                        {
+                            if (k == 3)
+                                this.Close();
+                            k++;
+                            msgErr.TypeError = Type.PasswordErr;
+                            break;
+                        }
                     }
-
+                }
+                else
+                {
+                    msgErr.TypeError = Type.LoginErr;
                 }
             }
+            txtBoxError.DataContext = msgErr;
             txtBoxError.Visibility = Visibility.Visible;
         }
 
@@ -76,19 +91,21 @@ namespace InformationProtection
                     {
                         Login = fields[0],
                         Password = fields[1],
-                        Role = fields[0].Equals("ADMIN") ? Role.Admin : Role.User
-                        
+                        Role = fields[0].Equals("ADMIN") ? Role.Admin : Role.User,
+                        Enable = fields[2] == "1"
+
                     });
                 }
             }
             else
             {
-                await File.AppendAllLinesAsync(path,new string[] { "ADMIN/" });
+                await File.AppendAllLinesAsync(path,new string[] { "ADMIN//1" });
                 listUsers.Add(new User
                 {
                     Login = "ADMIN",
                     Password = "",
-                    Role = Role.Admin
+                    Role = Role.Admin,
+                    Enable = true
                 });
             }
         }
