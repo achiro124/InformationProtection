@@ -36,7 +36,7 @@ namespace InformationProtection
                 {
                     if (user.Password == passwordBox.Password && user.Enable)
                     {
-                        if (user.Password == "")
+                        if (user.Password == "" || user.Criterion && !User.CheckParametrsCriterion(user.Password))
                         {
                             PasswordRegistrationWindow passwordRegistration = new PasswordRegistrationWindow(user);
                             passwordRegistration.Owner = this;
@@ -92,14 +92,15 @@ namespace InformationProtection
                         Login = fields[0],
                         Password = fields[1],
                         Role = fields[0].Equals("ADMIN") ? Role.Admin : Role.User,
-                        Enable = fields[2] == "1"
+                        Enable = fields[2] == "1",
+                        Criterion = fields[3] == "1"
 
                     });
                 }
             }
             else
             {
-                await File.AppendAllLinesAsync(path,new string[] { "ADMIN//1" });
+                await File.AppendAllLinesAsync(path,new string[] { "ADMIN//1/0" });
                 listUsers.Add(new User
                 {
                     Login = "ADMIN",

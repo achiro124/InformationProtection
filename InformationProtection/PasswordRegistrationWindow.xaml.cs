@@ -25,19 +25,37 @@ namespace InformationProtection
         {
             InitializeComponent();
             User = user;
+
+            if (user.Criterion)
+            {
+                txtBoxError.DataContext = msErr;
+                msErr.TypeError = Type.CriterionErr;
+                txtBoxPassword.Text = "Введите новый пароль";
+            }
         }
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
             if(passwordBox.Password == copyPasswordBox.Password && passwordBox.Password != "")
             {
-                User.Password = passwordBox.Password;
-                this.DialogResult = true;
+                if(!User.Criterion)
+                {
+                    User.Password = passwordBox.Password;
+                    this.DialogResult = true;
+                }
+                else
+                {
+                    if (User.CheckParametrsCriterion(passwordBox.Password))
+                    {
+                        User.Password = passwordBox.Password;
+                        this.DialogResult = true;
+                    }
+                }
+
             }
             else
             {
                 txtBoxError.DataContext = msErr;
                 msErr.TypeError = Type.CopyPasswordErr;
-                txtBoxError.Visibility = Visibility;
             }
         }
     }

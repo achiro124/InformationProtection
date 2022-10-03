@@ -33,10 +33,12 @@ namespace InformationProtection
 
             if(User.Role == Role.User)
                 UserTabControl.Items.RemoveAt(1);
+
+
         }
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            UserWindow UserWindow = new UserWindow(new User(), ListUsers);
+            UserWindow UserWindow = new UserWindow(new User(), ListUsers, true);
             UserWindow.Owner = this;
             if (UserWindow.ShowDialog() == true)
             {
@@ -55,8 +57,9 @@ namespace InformationProtection
             UserWindow UserWindow = new UserWindow(new User
             {
                 Login = user.Login,
-                Password = ""
-            }, ListUsers);
+                Enable = user.Enable,
+                Criterion = user.Criterion
+            }, ListUsers, false);
             UserWindow.Owner = this;
 
             if (UserWindow.ShowDialog() == true)
@@ -64,7 +67,7 @@ namespace InformationProtection
                 // получаем измененный объект
                 foreach (var user1 in ListUsers)
                 {
-                    if(user.Id == user1.Id)
+                    if(user.Login == user1.Login)
                     {
                         user = user1;
                         break;
@@ -72,8 +75,8 @@ namespace InformationProtection
                 }
                 if (user != null)
                 {
-                    user.Login = UserWindow.User.Login;
-                    user.Password = UserWindow.User.Password;
+                    user.Enable = UserWindow.User.Enable;
+                    user.Criterion = UserWindow.User.Criterion;
                 }
             }
         }
@@ -95,14 +98,18 @@ namespace InformationProtection
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             int enable = User.Enable ? 1 : 0;
-            File.WriteAllText(path, $"{User.Login}/{User.Password}/{enable}\n");
+            int criterion = User.Criterion ? 1 : 0;
+            File.WriteAllText(path, $"{User.Login}/{User.Password}/{enable}/{criterion}\n");
             foreach (var user in ListUsers)
             {
-                File.AppendAllText(path, $"{user.Login}/{user.Password}/{enable}\n");
+                enable = user.Enable ? 1 : 0;
+                criterion = user.Criterion ? 1 : 0;
+                File.AppendAllText(path, $"{user.Login}/{user.Password}/{enable}/{criterion}\n");
             }
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
+            this.Closed -= Window_Closed;
             this.Close();
         }
 
@@ -116,10 +123,13 @@ namespace InformationProtection
         private void Window_Closed(object sender, EventArgs e)
         {
             int enable = User.Enable ? 1 : 0;
-            File.WriteAllText(path, $"{User.Login}/{User.Password}/{enable}\n");
+            int criterion = User.Criterion ? 1 : 0;
+            File.WriteAllText(path, $"{User.Login}/{User.Password}/{enable}/{criterion}\n");
             foreach (var user in ListUsers)
             {
-                File.AppendAllText(path,$"{user.Login}/{user.Password}/{enable}\n");
+                enable = user.Enable ? 1 : 0;
+                criterion = user.Criterion ? 1 : 0;
+                File.AppendAllText(path, $"{user.Login}/{user.Password}/{enable}/{criterion}\n");
             }
         }
     }

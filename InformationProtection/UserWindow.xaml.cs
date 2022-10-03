@@ -22,23 +22,24 @@ namespace InformationProtection
     {
         public User User { get; private set; }
         private ObservableCollection<User> ListUsers { get; set; }
-        MessageError msgErr = new MessageError();
-        public UserWindow(User user, ObservableCollection<User> ListUsers)
+        private MessageError msgErr = new MessageError();
+        public UserWindow(User user, ObservableCollection<User> ListUsers, bool type)
         {
             InitializeComponent();
             User = user;
             this.ListUsers = ListUsers;
-            DataContext = user;
+            DataContext = User;
+            txtBoxLogin.IsEnabled = type;
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)
         {
             foreach(var user in ListUsers)
             {
-                if (user.Login == txtBoxLogin.Text)
+                if (user.Login == txtBoxLogin.Text && txtBoxLogin.IsEnabled)
                 {
                     msgErr.TypeError = Type.SimilarLoginsErr;
-                    txtBoxError.DataContext = msgErr; 
+                    txtBoxError.DataContext = msgErr;
                     return;
                 }
                     

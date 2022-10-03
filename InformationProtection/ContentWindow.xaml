@@ -45,11 +45,17 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Логин:" FontSize="14"/>
-                                        <TextBlock Text="{Binding Login}" FontSize="16" Margin="5,0,0,0"/>
+                                        <StackPanel Orientation="Horizontal" Width="150">
+                                            <TextBlock Text="Логин:" FontSize="14"/>
+                                            <TextBlock Text="{Binding Login}" FontSize="16" Margin="5,0,0,0"/>
+                                        </StackPanel>
                                         <StackPanel Margin="30,0,0,0">
                                             <TextBlock>Учетная запись активна</TextBlock>
-                                            <RadioButton IsChecked="{Binding Enable}"/>
+                                            <CheckBox IsChecked="{Binding Enable}" IsEnabled="False" />
+                                        </StackPanel>
+                                        <StackPanel Margin="30,0,0,0">
+                                            <TextBlock>Ограничение на пароль</TextBlock>
+                                            <CheckBox IsChecked="{Binding Criterion}" IsEnabled="False" />
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>

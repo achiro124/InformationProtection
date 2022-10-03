@@ -34,7 +34,7 @@ namespace InformationProtection
             {
                 if(newPasswordBox.Password == copyPasswordBox.Password && newPasswordBox.Password != "")
                 {
-                    if(newPasswordBox.Password != oldPasswordBox.Password)
+                    if(newPasswordBox.Password != oldPasswordBox.Password && !User.Criterion) 
                     {
                         User.Password = newPasswordBox.Password;
                         DialogResult = true;
@@ -43,6 +43,19 @@ namespace InformationProtection
                     {
                         txtBoxError.DataContext = msgErr;
                         msgErr.TypeError = Type.OldAndNewErr;
+                        if (User.Criterion)
+                        {
+                            if (User.CheckParametrsCriterion(newPasswordBox.Password) && newPasswordBox.Password != oldPasswordBox.Password)
+                            {
+                                User.Password = newPasswordBox.Password;
+                                DialogResult = true;
+                            }
+                            else
+                            {
+                                txtBoxError.DataContext = msgErr;
+                                msgErr.TypeError = newPasswordBox.Password == oldPasswordBox.Password ? Type.OldAndNewErr : Type.CriterionErr;
+                            }
+                        }
                     }
                 }
                 else

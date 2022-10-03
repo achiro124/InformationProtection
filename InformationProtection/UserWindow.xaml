@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InformationProtection"
         mc:Ignorable="d"
-                Title="UserWindow" Height="200" Width="300" WindowStartupLocation="CenterScreen">
+                Title="UserWindow" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="8" />
@@ -21,8 +21,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -34,11 +36,14 @@
         <TextBox x:Name="txtBoxLogin" Text="{Binding Login}" Grid.Column="1" MaxLength="20" FontSize="16"/>
         
         <TextBlock Text="Учетная запись активна" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" FontSize="12"/>
-        <RadioButton Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0" IsChecked="{Binding Enable}"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0" IsChecked="{Binding Enable}"/>
+
+        <TextBlock Text="Ограничение на пароль" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" FontSize="12"/>
+        <CheckBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="20,0,0,0" IsChecked="{Binding Criterion}"/>
 
 
-        <TextBox x:Name="txtBoxError" Text="{Binding Text}" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"  FontSize="16" Visibility="Hidden" HorizontalAlignment="Center"/>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+        <TextBlock x:Name="txtBoxError" Text="{Binding Text}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"  FontSize="12" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
             <Button IsDefault="True" Click="Accept_Click" >OK</Button>
             <Button IsCancel="True" >Отмена</Button>
         </StackPanel>

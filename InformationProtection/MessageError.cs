@@ -28,7 +28,7 @@ namespace InformationProtection
                     }
                     case Type.LoginErr:
                     {
-                            Text = "Данного логина не существует";
+                            Text = "Аккаутна с таким логином не существует";
                             break;
                     }
                     case Type.PasswordErr:
@@ -49,6 +49,11 @@ namespace InformationProtection
                     case Type.SimilarLoginsErr:
                     {
                         Text = "Аккаунт с таким логином уже существует";
+                        break;
+                    }
+                    case Type.CriterionErr:
+                    {
+                        Text = "Пароль не подходит условию\nНеобходимо чередование цифр, знаков препинания и снова цифр";
                         break;
                     }
                 }
@@ -72,6 +77,7 @@ namespace InformationProtection
         PasswordErr,
         OldAndNewErr,
         UserBlockErr,
-        SimilarLoginsErr
+        SimilarLoginsErr,
+        CriterionErr
     }
 }
