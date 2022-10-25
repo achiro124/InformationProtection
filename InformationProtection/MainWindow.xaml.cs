@@ -19,12 +19,16 @@ namespace InformationProtection
     public partial class MainWindow : Window
     {
         private string path = "E:\\C#\\InformationProtection\\InformationProtection\\baseDate.txt";
+        private string copyPath = "E:\\C#\\InformationProtection\\InformationProtection\\baseDateCopy.txt";
+        private string key = string.Empty;
         List<User> listUsers = new List<User>();
         MessageError msgErr = new MessageError();
         int k = 0;
-        public MainWindow()
+        public MainWindow(string key)
         {
-            InitializeComponent();     
+            InitializeComponent();
+            DataContext = msgErr;
+            this.key = key;
         }
 
 
@@ -38,15 +42,22 @@ namespace InformationProtection
                     {
                         if (user.Password == "" || user.Criterion && !User.CheckParametrsCriterion(user.Password))
                         {
-                            PasswordRegistrationWindow passwordRegistration = new PasswordRegistrationWindow(user);
-                            passwordRegistration.Owner = this;
-                            passwordRegistration.ShowDialog();
+                            if(user.Criterion && !User.CheckParametrsCriterion(user.Password))
+                            {
+                                ChangePasswordWindow changePasswordWindow = new ChangePasswordWindow(user);
+                                changePasswordWindow.ShowDialog();
+                            }
+                            else
+                            {
+                                PasswordRegistrationWindow passwordRegistration = new PasswordRegistrationWindow(user);
+                                passwordRegistration.Owner = this;
+                                passwordRegistration.ShowDialog();
+                            }
                             return;
                         }
                         else
                         {
-                            ContentWindow contentWindow;
-                            contentWindow = new ContentWindow(listUsers, user);
+                            ContentWindow contentWindow = new ContentWindow(listUsers, user,key);
                             contentWindow.Show();
                             this.Close();
                             break;
@@ -74,19 +85,19 @@ namespace InformationProtection
                     msgErr.TypeError = Type.LoginErr;
                 }
             }
-            txtBoxError.DataContext = msgErr;
+            //txtBoxError.DataContext = msgErr;
             txtBoxError.Visibility = Visibility.Visible;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            FileInfo baseDate = new FileInfo(path);
-            if (baseDate.Exists)
+            FileInfo baseDateCopy = new FileInfo(copyPath);
+            if (baseDateCopy.Exists)
             {
-                string[] lines = File.ReadAllLines(path);
+                string[] lines = File.ReadAllLines(copyPath);
                 foreach(var line in lines)
                 {
-                    string[] fields = line.Split('/');
+                    string[] fields = line.Split(' ');
                     listUsers.Add(new User
                     {
                         Login = fields[0],
@@ -98,17 +109,11 @@ namespace InformationProtection
                     });
                 }
             }
-            else
-            {
-                await File.AppendAllLinesAsync(path,new string[] { "ADMIN//1/0" });
-                listUsers.Add(new User
-                {
-                    Login = "ADMIN",
-                    Password = "",
-                    Role = Role.Admin,
-                    Enable = true
-                });
-            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            File.Delete(copyPath);
         }
     }
 }

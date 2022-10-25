@@ -29,6 +29,7 @@ namespace InformationProtection
             User = user;
             this.ListUsers = ListUsers;
             DataContext = User;
+            txtBoxError.DataContext = msgErr;
             txtBoxLogin.IsEnabled = type;
         }
 
@@ -36,10 +37,9 @@ namespace InformationProtection
         {
             foreach(var user in ListUsers)
             {
-                if (user.Login == txtBoxLogin.Text && txtBoxLogin.IsEnabled)
+                if (user.Login == txtBoxLogin.Text && txtBoxLogin.IsEnabled && txtBoxLogin.Text == "ADMIN")
                 {
                     msgErr.TypeError = Type.SimilarLoginsErr;
-                    txtBoxError.DataContext = msgErr;
                     return;
                 }
                     

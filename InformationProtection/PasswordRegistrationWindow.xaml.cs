@@ -25,10 +25,9 @@ namespace InformationProtection
         {
             InitializeComponent();
             User = user;
-
+            DataContext = msErr;
             if (user.Criterion)
             {
-                txtBoxError.DataContext = msErr;
                 msErr.TypeError = Type.CriterionErr;
                 txtBoxPassword.Text = "Введите новый пароль";
             }
@@ -54,7 +53,6 @@ namespace InformationProtection
             }
             else
             {
-                txtBoxError.DataContext = msErr;
                 msErr.TypeError = Type.CopyPasswordErr;
             }
         }

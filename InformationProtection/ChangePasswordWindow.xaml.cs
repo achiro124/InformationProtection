@@ -25,7 +25,8 @@ namespace InformationProtection
         public ChangePasswordWindow(User user)
         {
             InitializeComponent();
-            User = user;    
+            User = user;
+            DataContext = msgErr;
         }
 
         public void Accept_Click(object sender, EventArgs e)
@@ -41,7 +42,6 @@ namespace InformationProtection
                     }
                     else
                     {
-                        txtBoxError.DataContext = msgErr;
                         msgErr.TypeError = Type.OldAndNewErr;
                         if (User.Criterion)
                         {
@@ -52,7 +52,6 @@ namespace InformationProtection
                             }
                             else
                             {
-                                txtBoxError.DataContext = msgErr;
                                 msgErr.TypeError = newPasswordBox.Password == oldPasswordBox.Password ? Type.OldAndNewErr : Type.CriterionErr;
                             }
                         }
@@ -60,13 +59,11 @@ namespace InformationProtection
                 }
                 else
                 {
-                    txtBoxError.DataContext = msgErr;
                     msgErr.TypeError = Type.CopyPasswordErr;
                 }
             }
             else
             {
-                txtBoxError.DataContext = msgErr;
                 msgErr.TypeError = Type.OldPasswordErr;
             }
         }

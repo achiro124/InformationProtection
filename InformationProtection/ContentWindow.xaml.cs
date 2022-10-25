@@ -22,12 +22,15 @@ namespace InformationProtection
     public partial class ContentWindow : Window
     {
         private ObservableCollection<User> ListUsers { get; set; }
+        private string key;
         private User User { get; set; }
         private string path = "E:\\C#\\InformationProtection\\InformationProtection\\baseDate.txt";
-        public ContentWindow(List<User> listUser, User user)
+        private string copyPath = "E:\\C#\\InformationProtection\\InformationProtection\\baseDateCopy.txt";
+        public ContentWindow(List<User> listUser, User user,string key)
         {
             InitializeComponent();
             User = user;
+            this.key = key;
             ListUsers = new ObservableCollection<User>(listUser);
             ListUsers.Remove(user);
 
@@ -99,16 +102,18 @@ namespace InformationProtection
         {
             int enable = User.Enable ? 1 : 0;
             int criterion = User.Criterion ? 1 : 0;
-            File.WriteAllText(path, $"{User.Login}/{User.Password}/{enable}/{criterion}\n");
+            File.WriteAllText(path, $"{User.Login} {User.Password} {enable} {criterion}\n");
             foreach (var user in ListUsers)
             {
                 enable = user.Enable ? 1 : 0;
                 criterion = user.Criterion ? 1 : 0;
-                File.AppendAllText(path, $"{user.Login}/{user.Password}/{enable}/{criterion}\n");
+                File.AppendAllText(path, $"{user.Login} {user.Password} {enable} {criterion}\n");
             }
 
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            KeyWindow keyWindow = new KeyWindow();
+            keyWindow.Show();
+            File.Delete(copyPath);
+            Crypt.SaveFile(path,key);
             this.Closed -= Window_Closed;
             this.Close();
         }
@@ -124,13 +129,15 @@ namespace InformationProtection
         {
             int enable = User.Enable ? 1 : 0;
             int criterion = User.Criterion ? 1 : 0;
-            File.WriteAllText(path, $"{User.Login}/{User.Password}/{enable}/{criterion}\n");
+            File.WriteAllText(path, $"{User.Login} {User.Password} {enable} {criterion}\n");
             foreach (var user in ListUsers)
             {
                 enable = user.Enable ? 1 : 0;
                 criterion = user.Criterion ? 1 : 0;
-                File.AppendAllText(path, $"{user.Login}/{user.Password}/{enable}/{criterion}\n");
+                File.AppendAllText(path, $"{user.Login} {user.Password} {enable} {criterion}\n");
             }
+            File.Delete(copyPath);
+            Crypt.SaveFile(path, key);
         }
     }
-}
+}       

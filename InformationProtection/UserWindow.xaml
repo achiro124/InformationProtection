@@ -42,7 +42,7 @@
         <CheckBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="20,0,0,0" IsChecked="{Binding Criterion}"/>
 
 
-        <TextBlock x:Name="txtBoxError" Text="{Binding Text}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"  FontSize="12" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+        <TextBlock x:Name="txtBoxError" DataContext="{Binding}" Text="{Binding Text}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"  FontSize="12" HorizontalAlignment="Center" TextWrapping="Wrap"/>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
             <Button IsDefault="True" Click="Accept_Click" >OK</Button>
             <Button IsCancel="True" >Отмена</Button>

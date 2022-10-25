@@ -48,13 +48,18 @@ namespace InformationProtection
                     }
                     case Type.SimilarLoginsErr:
                     {
-                        Text = "Аккаунт с таким логином уже существует";
-                        break;
+                           Text = "Аккаунт с таким логином уже существует";
+                           break;
                     }
                     case Type.CriterionErr:
                     {
-                        Text = "Пароль не подходит условию\nНеобходимо чередование цифр, знаков препинания и снова цифр";
-                        break;
+                           Text = "Пароль не подходит условию\nНеобходимо чередование цифр, знаков препинания и снова цифр";
+                           break;
+                    }
+                    case Type.KeyErr:
+                    {
+                           Text = "Ошибочный ключ";
+                           break;
                     }
                 }
                 OnPropertyChanged("Text");
@@ -78,6 +83,7 @@ namespace InformationProtection
         OldAndNewErr,
         UserBlockErr,
         SimilarLoginsErr,
-        CriterionErr
+        CriterionErr,
+        KeyErr
     }
 }
