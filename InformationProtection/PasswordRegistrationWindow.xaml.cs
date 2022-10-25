@@ -20,21 +20,40 @@ namespace InformationProtection
     public partial class PasswordRegistrationWindow : Window
     {
         public User User { get; set; }
+        MessageError msErr = new MessageError();
         public PasswordRegistrationWindow(User user)
         {
             InitializeComponent();
             User = user;
+            DataContext = msErr;
+            if (user.Criterion)
+            {
+                msErr.TypeError = Type.CriterionErr;
+                txtBoxPassword.Text = "Введите новый пароль";
+            }
         }
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
-            if(passwordBox.Password == copyPasswordBox.Password)
+            if(passwordBox.Password == copyPasswordBox.Password && passwordBox.Password != "")
             {
-                User.Password = passwordBox.Password;
-                this.DialogResult = true;
+                if(!User.Criterion)
+                {
+                    User.Password = passwordBox.Password;
+                    this.DialogResult = true;
+                }
+                else
+                {
+                    if (User.CheckParametrsCriterion(passwordBox.Password))
+                    {
+                        User.Password = passwordBox.Password;
+                        this.DialogResult = true;
+                    }
+                }
+
             }
             else
             {
-                txtBoxError.Visibility = Visibility;
+                msErr.TypeError = Type.CopyPasswordErr;
             }
         }
     }

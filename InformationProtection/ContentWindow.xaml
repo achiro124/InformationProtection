@@ -5,8 +5,83 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InformationProtection"
         mc:Ignorable="d"
-        Title="ContentWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="ContentWindow" Height="439" Width="619" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
-        
+        <TabControl x:Name="UserTabControl" SelectionChanged="DataContext_SelectionChanged">
+            <TabItem x:Name="ProfileTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Профиль</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.4*"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.1*"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="E:\C#\InformationProtection\InformationProtection\img.jpg" Height="200"/>
+                        <TextBlock Text="{Binding Path = Login}" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Center" FontSize="16"/>
+                        <Button Grid.Row="2" Width="120" Height="40" Content="Сменить пароль" Click="ChangePassword_Click"/>
+                        <Button Grid.Row="3" Width="120" Height="40" Content="Выйти" Click="Exit_Click"/>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="UsersListTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Администрирование</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <ListBox x:Name="usersList" ItemsSource="{Binding}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal" Width="150">
+                                            <TextBlock Text="Логин:" FontSize="14"/>
+                                            <TextBlock Text="{Binding Login}" FontSize="16" Margin="5,0,0,0"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="30,0,0,0">
+                                            <TextBlock>Учетная запись активна</TextBlock>
+                                            <CheckBox IsChecked="{Binding Enable}" IsEnabled="False" />
+                                        </StackPanel>
+                                        <StackPanel Margin="30,0,0,0">
+                                            <TextBlock>Ограничение на пароль</TextBlock>
+                                            <CheckBox IsChecked="{Binding Criterion}" IsEnabled="False" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Добавить" Margin="10" Click="Add_Click"/>
+                            <Button Content="Изменить" Margin="10" Click="Edit_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="AboutProgramm">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">О программе</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock FontSize="24">ИДБ-19-03 Фадеев Максим </TextBlock>
+                        <TextBlock FontSize="16" HorizontalAlignment="Center">24 вариант</TextBlock>
+                        <TextBlock FontSize="16">Чередование цифр, знаков препинания и снова цифр</TextBlock>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
